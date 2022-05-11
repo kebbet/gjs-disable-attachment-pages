@@ -24,7 +24,6 @@ if ( ! class_exists( 'GJSDisableAttachmentPages' ) ) {
 			register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
 		}
 
-
 		public function init() {
 			add_filter( 'rewrite_rules_array', array( $this, 'remove_attachment_rewrites' ) );
 			add_filter( 'wp_unique_post_slug', array( $this, 'wp_unique_post_slug' ), 10, 6 );
@@ -65,17 +64,14 @@ if ( ! class_exists( 'GJSDisableAttachmentPages' ) ) {
 				return $slug;
 			}
 
-
 			if ( ! is_post_type_hierarchical( $post_type ) ) {
 				return $slug;
 			}
-
 
 			$feeds = $wp_rewrite->feeds;
 			if ( ! is_array( $feeds ) ) {
 				$feeds = array();
 			}
-
 
 			/*
 			 * NOTE: This is the big change. We are NOT checking attachments along with our post type
@@ -83,7 +79,6 @@ if ( ! class_exists( 'GJSDisableAttachmentPages' ) ) {
 			$slug            = $original_slug;
 			$check_sql       = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type IN ( %s ) AND ID != %d AND post_parent = %d LIMIT 1";
 			$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_ID, $post_parent ) );
-
 
 			/**
 			 * Filters whether the post slug would make a bad hierarchical post slug.
